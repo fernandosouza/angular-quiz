@@ -1,0 +1,16 @@
+<article class="question">
+  <h1>
+    <input (input)="onInputQuestionName($event)" type="text" placeholder="Insert the question" name="question_text">
+  </h1>
+  <div>
+    <ul *ngIf="options">
+      <li *ngFor="let option of options; let i = index">
+        <label for="">Option</label>
+        <input (input)="onInputOptionText($event, i)" type="text" name="question_option[]">
+      </li>
+    </ul>
+    <button type="button" (click)="addOption()">Add new option</button>
+  </div>
+  <button (click)="saveQuestion()" type="button">Save</button>
+  {{ status }}
+</article>

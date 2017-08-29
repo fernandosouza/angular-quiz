@@ -1,0 +1,13 @@
+<article class="question">
+  <p>{{ question.text }}</p>
+  <div>
+    <ul>
+      <li *ngFor="let option of question.ops">
+        <label *ngIf="option">
+          <input type="radio" name="option_{{question.id}}" value="{{option.id}}" />
+          {{option.text}}
+        </label>
+      </li>
+    </ul>
+  </div>
+</article>
