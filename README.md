@@ -1,5 +1,7 @@
 # Quiz
 
+This project depends on [this another one](https://github.com/fernandosouza/quiz-server)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
 
 ## Development server
