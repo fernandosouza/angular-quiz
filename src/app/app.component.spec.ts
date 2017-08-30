@@ -1,13 +1,28 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import { QuestionCreatorComponent } from './question-creator/question-creator.component';
+import { QuestionComponent } from './question/question.component';
+import { MockBackend } from '@angular/http/testing';
+import { BaseRequestOptions, Http } from '@angular/http';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        QuestionCreatorComponent,
+        QuestionComponent
       ],
+      providers: [
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          useFactory: (backend, options) => new Http(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -27,6 +42,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
+    expect(compiled.querySelector('h1').textContent).toContain('Howzit Quiz');
   }));
 });
