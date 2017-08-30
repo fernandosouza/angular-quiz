@@ -1,16 +1,19 @@
 <article class="question">
-  <h1>
-    <input (input)="onInputQuestionName($event)" type="text" placeholder="Insert the question" name="question_text">
-  </h1>
-  <div>
-    <ul *ngIf="options">
-      <li *ngFor="let option of options; let i = index">
-        <label for="">Option</label>
-        <input (input)="onInputOptionText($event, i)" type="text" name="question_option[]">
+  <h5>
+    <input class="form-control" (input)="onInputQuestionName($event)" type="text" placeholder="Insert the question" name="question_text">
+  </h5>
+  <form>
+    <ul class="list-group" *ngIf="options">
+      <li class="list-group-item" *ngFor="let option of options; let i = index">
+        <label class="sr-only" for="">Option</label>
+        <input placeholder="Type the option" class="form-control" (input)="onInputOptionText($event, i)" type="text" name="question_option[]">
       </li>
     </ul>
-    <button type="button" (click)="addOption()">Add new option</button>
-  </div>
-  <button (click)="saveQuestion()" type="button">Save</button>
+    <button class="btn btn-sm btn-block btn-primary" type="button" (click)="addOption()">Add new option</button>
+  </form>
+  <br>
+  <button class="btn btn-primary" (click)="saveQuestion()" type="button">Save</button>
+  <br>
+  <br>
   {{ status }}
 </article>
