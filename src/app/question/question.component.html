@@ -1,6 +1,6 @@
 <article class="question">
-  <p>{{ question.text }}</p>
-  <div>
+  <p>{{ question ? question.text : '' }}</p>
+  <div *ngIf="question && question.ops">
     <ul>
       <li *ngFor="let option of question.ops">
         <label *ngIf="option">
