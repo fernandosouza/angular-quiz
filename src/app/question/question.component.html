@@ -1,6 +1,6 @@
 <article class="question">
-  <p>{{ question ? question.text : '' }}</p>
-  <div *ngIf="question && question.ops">
+  <h5>{{ question ? question.text : '' }}</h5>
+  <div class="options-list" *ngIf="question && question.ops">
     <ul>
       <li *ngFor="let option of question.ops">
         <label *ngIf="option">
@@ -10,4 +10,5 @@
       </li>
     </ul>
   </div>
+  <p class="no-option-feedback alert alert-light" *ngIf="question && !question.ops">There is no option</p>
 </article>

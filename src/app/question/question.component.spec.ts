@@ -28,4 +28,22 @@ describe('QuestionComponent', () => {
     const textElement = fixture.debugElement.query(By.css('.question p'));
     expect(textElement.nativeElement.textContent).toContain(component.question.text);
   });
+
+  it('should inform if the question has no options', () => {
+    component.question = {
+      text: 'Opa'
+    }
+    fixture.detectChanges();
+    const textElement = fixture.debugElement.query(By.css('.no-option-feedback'));
+    expect(textElement.nativeElement.textContent).toContain('There is no option');
+  });
+
+  it('should render the list of options if there is nothing to render', () => {
+    component.question = {
+      text: 'Opa'
+    }
+    fixture.detectChanges();
+    const textElement = fixture.debugElement.query(By.css('.options-list'));
+    expect(textElement).toBeNull();
+  });
 });
