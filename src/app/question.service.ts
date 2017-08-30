@@ -14,8 +14,8 @@ export class QuestionService {
 
   constructor(private http: Http) { }
 
-  private setQuestions(questions) {
-    this.questions = [...questions]
+  private setQuestions(questions: object[]): void {
+    this.questions = [...questions, ...this.questions]
     this.questionsUpdated.emit(this.questions)
   }
 
@@ -26,7 +26,7 @@ export class QuestionService {
       .share();
 
     request.subscribe(data => {
-      this.setQuestions(data);
+      this.setQuestions([data]);
     })
     return request;
   }
