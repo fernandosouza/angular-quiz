@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { QuestionService } from '../question.service';
+import { OptionService } from '../option.service';
 
 @Component({
   selector: 'app-question-creator',
@@ -17,9 +16,12 @@ export class QuestionCreatorComponent {
   }
   private options = [this.option]
   private status: string;
-  private questionId: Number;
+  private questionId: number;
 
-  constructor(private http: Http, private questionService: QuestionService) { }
+  constructor(
+    private questionService: QuestionService,
+    private optionService: OptionService
+  ) { }
 
   onInputQuestionName(event) {
     const value = event.currentTarget.value;
@@ -37,7 +39,7 @@ export class QuestionCreatorComponent {
         if (data) {
           this.status = 'Question saved'
           this.questionId = data.insertId;
-          // this.saveOptions();
+          this.saveOptions(this.options, this.questionId);
         }
         setTimeout(() => this.status = '', 2000);
       });
@@ -47,9 +49,8 @@ export class QuestionCreatorComponent {
     this.options[index].text = event.currentTarget.value;
   }
 
-  saveOptions() {
-    this.http.get('http://localhost:8080/addOption/' + this.options[0].text + '/' + this.questionId)
-      .map(res => res.json())
+  saveOptions(options: Array<object>, questionId: number) {
+    this.optionService.save(this.options, questionId)
       .subscribe(data => {
         console.log(data);
       });

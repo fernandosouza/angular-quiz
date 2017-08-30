@@ -4,6 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { QuestionCreatorComponent } from './question-creator.component';
 import { QuestionService } from '../question.service';
+import { OptionService } from '../option.service';
 
 describe('QuestionCreatorComponent', () => {
   let component: QuestionCreatorComponent;
@@ -14,6 +15,7 @@ describe('QuestionCreatorComponent', () => {
       imports: [HttpModule],
       providers: [
         QuestionService,
+        OptionService,
         MockBackend,
         BaseRequestOptions,
         {
