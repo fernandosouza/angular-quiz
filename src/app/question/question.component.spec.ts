@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionComponent } from './question.component';
+import { By } from '@angular/platform-browser';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
@@ -20,6 +21,11 @@ describe('QuestionComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    component.question = {
+      text: 'Opa'
+    }
+    fixture.detectChanges();
+    const textElement = fixture.debugElement.query(By.css('.question p'));
+    expect(textElement.nativeElement.textContent).toContain(component.question.text);
   });
 });
