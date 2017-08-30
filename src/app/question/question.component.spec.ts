@@ -25,7 +25,7 @@ describe('QuestionComponent', () => {
       text: 'Opa'
     }
     fixture.detectChanges();
-    const textElement = fixture.debugElement.query(By.css('.question p'));
+    const textElement = fixture.debugElement.query(By.css('.card-title'));
     expect(textElement.nativeElement.textContent).toContain(component.question.text);
   });
 
