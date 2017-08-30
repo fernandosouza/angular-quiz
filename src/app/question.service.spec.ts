@@ -1,13 +1,13 @@
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { JsonpModule,
+import { 
   BaseRequestOptions,
   Response,
   ResponseOptions,
-  Http } from '@angular/http';
+  Http,
+  HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { QuestionService } from './question.service';
-import { HttpModule } from '@angular/http';
 
 describe('QuestionService', () => {
   let service: QuestionService;
