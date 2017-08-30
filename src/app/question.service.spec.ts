@@ -1,6 +1,5 @@
-import { TestBed, async, fakeAsync, inject, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 import { JsonpModule,
-  Jsonp,
   BaseRequestOptions,
   Response,
   ResponseOptions,
