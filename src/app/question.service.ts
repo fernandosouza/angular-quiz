@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 
@@ -21,7 +21,7 @@ export class QuestionService {
 
   save(text: string): Observable<any> {
     if (!text) { return };
-    let request = this.http.post(POST_URL, { text })
+    const request = this.http.post(POST_URL, { text })
       .map(res => res.json())
       .share();
 
@@ -32,7 +32,7 @@ export class QuestionService {
   }
 
   get(): Observable<any> {
-    let request = this.http.get(GET_URL)
+    const request = this.http.get(GET_URL)
       .map(questions => questions.json())
 
     request.subscribe(data => {
