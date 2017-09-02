@@ -6,12 +6,19 @@ import { OptionService } from './option.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [
     QuestionService,
     OptionService
-  ]
+  ],
+  template: `
+  <main class="container">
+    <header>
+      <h1>Howzit Quiz</h1>
+      <app-question-creator></app-question-creator>
+      <app-question *ngFor="let question of questions" [question]="question"></app-question>
+    </header>
+  </main>`
 })
 export class AppComponent implements OnInit {
   title = 'app';
