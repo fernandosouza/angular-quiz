@@ -29,7 +29,7 @@ export class QuestionCreatorComponent {
   }
 
   addOption(): void {
-    this.options.push(this.option);
+    this.options = [...this.options, this.option]
   }
 
   saveQuestion(): void {
