@@ -7,10 +7,6 @@ import { OptionService } from './option.service';
 @Component({
   selector: 'app-root',
   styleUrls: ['./app.component.css'],
-  providers: [
-    QuestionService,
-    OptionService
-  ],
   template: `
   <main class="container">
     <header>
@@ -37,7 +33,9 @@ export class AppComponent implements OnInit {
     }
   ];
 
-  constructor(private http: Http, private questionService: QuestionService) {
+  constructor(
+    private http: Http,
+    private questionService: QuestionService) {
   }
 
   ngOnInit() {
@@ -56,7 +54,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  getOptionsToQuestion(id: Number) {
+  getOptionsToQuestion(id: number) {
     this.http.get('http://localhost:8080/question/' + id)
       .map(res => res.json())
       .subscribe(data => {

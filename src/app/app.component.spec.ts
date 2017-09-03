@@ -5,6 +5,8 @@ import { QuestionCreatorComponent } from './question-creator/question-creator.co
 import { QuestionComponent } from './question/question.component';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
+import { OptionService } from './option.service';
+import { QuestionService } from './question.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -17,6 +19,8 @@ describe('AppComponent', () => {
       providers: [
         MockBackend,
         BaseRequestOptions,
+        OptionService,
+        QuestionService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),

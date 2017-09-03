@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionCreatorComponent } from './question-creator/question-creator.component';
+import { QuestionService } from './question.service';
+import { OptionService } from './option.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,10 @@ import { QuestionCreatorComponent } from './question-creator/question-creator.co
     BrowserModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    QuestionService,
+    OptionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
