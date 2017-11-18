@@ -53,34 +53,39 @@ export class NestedComponent extends ElementBase<string> {
           [(ngModel)]="question.text"
         >
       </h5>
-      <ul class="list-group" *ngIf="options">
+      <ul class="list-group">
         <li class="list-group-item" *ngFor="let option of options; let i = index">
           <label class="sr-only" for="">Option</label>
           <input
-            [(ngModel)]="parent"
-            name="parent"
+            [(ngModel)]="option.text"
+            name="option-{{i}}"
             class="form-control"
             placeholder="Type the option"
             type="text"
-            (input)="onInputOptionText($event, i)"
           >
+          <button
+            (click)="dropOption(i)"
+            type="button"
+          >
+            Remove
+          </button>
         </li>
       </ul>
       <button
         class="btn btn-sm btn-block btn-primary"
-        type="submit"
+        (click)="addOption()"
+        type="button"
       >
         Add new option
       </button>
+      <button
+        class="btn btn-primary"
+        [disabled]="f.invalid"
+        >
+        Save
+      </button>
     </form>
     <br>
-    <button
-      class="btn btn-primary"
-      type="submit"
-      [disabled]="f.invalid"
-    >
-      Save
-    </button>
     <br>
     <br>
   </article>`
@@ -89,10 +94,7 @@ export class QuestionCreatorComponent {
   private question: Question = {
     text: ''
   };
-  private option = {
-    text: ''
-  }
-  private options = [this.option]
+  private options = []
   private questionId: number;
 
   constructor(
@@ -101,22 +103,22 @@ export class QuestionCreatorComponent {
   ) { }
 
   addOption(): void {
-    this.options = [...this.options, this.option]
+    this.options = [...this.options, {}]
+  }
+
+  dropOption(i) {
+    this.options.splice(i, 1);
   }
 
   saveQuestion(): void {
     if (!this.question.text) { return };
     this.questionService.save(this.question)
       .subscribe((response: Response) => {
-        if (response) {
+        if (response.ok) {
           this.saveOptions(this.options, this.questionId)
           this.resetQuestion()
         }
       })
-  }
-
-  onInputOptionText(event, index): void {
-    this.options[index].text = event.currentTarget.value;
   }
 
   resetQuestion() {
