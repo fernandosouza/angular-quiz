@@ -11,16 +11,8 @@ export class OptionService {
 
   constructor(private http: Http) { }
 
-  save(options: Array<{text: string}>, questionId: number): Observable<any> {
-    const request = this.http.post(ADD_OPTION_URL, { options })
-      .map(res => res.json())
-      .share();
-
-    request.subscribe(data => {
-      console.log(data);
-    });
-
-    return request;
+  save(options: Array<{text: string}>, questionId: number) {
+    return this.http.post(ADD_OPTION_URL, { options });
   }
 
 }

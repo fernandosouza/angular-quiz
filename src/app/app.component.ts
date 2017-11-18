@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { QuestionService } from './question.service';
+import { Http, Response } from '@angular/http';
+import { QuestionService, Question } from './question.service';
 import { OptionService } from './option.service';
 
 @Component({
@@ -12,14 +11,17 @@ import { OptionService } from './option.service';
     <header>
       <h1>Howzit Quiz</h1>
       <app-question-creator></app-question-creator>
-      <app-question *ngFor="let question of questions" [question]="question"></app-question>
+      <app-question
+        *ngFor="let question of questions"
+        [question]="question">
+      </app-question>
     </header>
   </main>`
 })
 export class AppComponent implements OnInit {
   title = 'app';
 
-  private questions;
+  private questions: Question[];
   private options = [
     {
       text: 'This is the text',
@@ -40,30 +42,28 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.loadQuestions();
-    this.questionService.questionsUpdated.subscribe(questions => this.questions = questions)
+    this.questionService.questionsLoaded.subscribe(
+      questions => this.questions = questions
+    );
   }
 
   loadQuestions(): void {
-    let ids;
     this.questionService.get()
-      .subscribe(data => {
-        ids = data.map(question => {
-          return question.id;
-        });
-        // this.getOptionsToQuestion(ids);
-      });
   }
 
-  getOptionsToQuestion(id: number) {
-    this.http.get('http://localhost:8080/question/' + id)
-      .map(res => res.json())
-      .subscribe(data => {
-        this.questions = this.questions.map(question => {
-          if (question.id === id) {
-            question = data;
-          }
-          return question;
-        })
+  // This method should load options for the question
+  getOptionsToQuestion(ids: number[]) {
+    this.http.get('http://localhost:8080/question/' + ids)
+      .subscribe((response: Response) => {
+        const data = response.json();
+        if (this.questions) {
+          this.questions = this.questions.map(question => {
+            if (question.id === data.id) {
+              question = data;
+            }
+            return question;
+          })
+        }
       });
   }
 }
