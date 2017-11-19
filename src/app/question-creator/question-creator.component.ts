@@ -19,7 +19,8 @@ import { Response } from '@angular/http';
       required
       type="text"
       #nested="ngModel"
-      placeholder="nested" />
+      placeholder="nested"
+    />
 
     <p *ngIf="nested.touched && !nested.valid">this is required</p>
   `
