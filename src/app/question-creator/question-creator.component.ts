@@ -115,8 +115,9 @@ export class QuestionCreatorComponent {
     if (!this.question.text) { return };
     this.questionService.save(this.question)
       .subscribe((response: Response) => {
+        const question = response.json();
         if (response.ok) {
-          this.saveOptions(this.options, this.questionId)
+          this.saveOptions(this.options, question)
           this.resetQuestion()
         }
       })
@@ -124,10 +125,11 @@ export class QuestionCreatorComponent {
 
   resetQuestion() {
     this.question.text = '';
+    this.options = [];
   }
 
-  saveOptions(options: Array<object>, questionId: number) {
-    this.optionService.save(this.options, questionId)
+  saveOptions(options: Array<object>, question: Question) {
+    this.optionService.save(this.options, question.id)
       .subscribe(data => {
         console.log(data)
       });
