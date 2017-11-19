@@ -7,9 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   <article class="question card">
     <div class="card-body">
       <h5 class="card-title">{{ question ? question.text : '' }}</h5>
-      <div class="options-list" *ngIf="question && question.ops">
+      <div class="options-list" *ngIf="question && question.answers">
         <ul>
-          <li *ngFor="let option of question.ops">
+          <li *ngFor="let option of question.answers">
             <label *ngIf="option">
               <input type="radio" name="option_{{question.id}}" value="{{option.id}}" />
               {{option.text}}
@@ -17,7 +17,7 @@ import { Component, OnInit, Input } from '@angular/core';
           </li>
         </ul>
       </div>
-      <p class="no-option-feedback alert alert-light" *ngIf="question && !question.ops">There is no option</p>
+      <p class="no-option-feedback alert alert-light" *ngIf="question && !question.answers.length">There is no option</p>
     </div>
   </article>
   `
