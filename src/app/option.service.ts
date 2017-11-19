@@ -11,7 +11,7 @@ export class OptionService {
 
   constructor(private http: Http) { }
 
-  save(options: Array<{text: string}>, questionId: number) {
+  save(options: Array<{text: string}>, questionId: string) {
     return this.http.post(ADD_OPTION_URL, { options });
   }
 
