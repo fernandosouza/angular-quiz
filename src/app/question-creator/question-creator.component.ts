@@ -64,6 +64,12 @@ export class NestedComponent extends ElementBase<string> {
             placeholder="Type the option"
             type="text"
           >
+          <input
+            type="radio"
+            name="correct"
+            [value]="i"
+            [(ngModel)]="correct"
+          >
           <button
             (click)="dropOption(i)"
             type="button"
@@ -95,8 +101,8 @@ export class QuestionCreatorComponent {
   private question: Question = {
     text: ''
   };
-  private options = []
-  private questionId: number;
+  private options = [];
+  private correct: string;
 
   constructor(
     private questionService: QuestionService,
@@ -117,7 +123,7 @@ export class QuestionCreatorComponent {
       .subscribe((response: Response) => {
         const question = response.json();
         if (response.ok) {
-          this.saveOptions(this.options, question)
+          this.saveOptions(this.options, question, this.correct)
           this.resetQuestion()
         }
       })
@@ -128,8 +134,8 @@ export class QuestionCreatorComponent {
     this.options = [];
   }
 
-  saveOptions(options: Array<object>, question: Question) {
-    this.optionService.save(this.options, question.id)
+  saveOptions(options: Array<object>, question: Question, correct: string) {
+    this.optionService.save(this.options, question.id, correct)
       .subscribe(data => {
         console.log(data)
       });
