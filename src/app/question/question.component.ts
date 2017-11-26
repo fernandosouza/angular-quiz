@@ -17,17 +17,22 @@ import { Component, OnInit, Input } from '@angular/core';
           </li>
         </ul>
       </div>
-      <p class="no-option-feedback alert alert-light" *ngIf="question && !question.answers.length">There is no option</p>
+      <p class="no-option-feedback alert alert-light" *ngIf="!hasOptions()">There is no option</p>
     </div>
   </article>
   `
 })
-export class QuestionComponent implements OnInit {
+export class QuestionComponent {
   @Input() question;
 
   constructor() { }
 
-  ngOnInit() {
+  hasOptions() {
+    return (
+      this.question &&
+      this.question.answers &&
+      this.question.answers.length > 0
+    );
   }
 
 }
