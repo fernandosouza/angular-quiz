@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, Optional, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
+import { Component, Input, ViewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { QuestionService } from '../question/question.service';
 import { OptionService } from '../option/option.service';
 
@@ -8,38 +8,6 @@ import { Response } from '@angular/http';
 import { NgForm } from '@angular/forms';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Question } from 'app/models';
-
-@Component({
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: NestedComponent,
-    multi: true,
-  }],
-  selector: 'app-nested',
-  template: `
-    <input
-      [(ngModel)]="value"
-      required
-      type="text"
-      #nested="ngModel"
-      placeholder="nested"
-    />
-
-    <p *ngIf="nested.touched && !nested.valid">this is required</p>
-  `
-})
-export class NestedComponent extends ElementBase<string> {
-  @Input() public label: string;
-  @Input() public placeholder: string;
-  @ViewChild(NgModel) model: NgModel;
-
-  constructor(
-    @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
-    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
-  ) {
-    super(validators, asyncValidators);
-  }
-}
 
 @Component({
   selector: 'app-question-creator',
