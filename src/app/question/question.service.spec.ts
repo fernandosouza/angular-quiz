@@ -13,7 +13,7 @@ describe('QuestionService', () => {
   let service: QuestionService;
   let backend: MockBackend;
 
-  const singleMockResponse = [{"id": 1, "text": "Test"}]
+  const singleMockResponse = [{'id': 1, 'text': 'Test'}]
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,8 +30,8 @@ describe('QuestionService', () => {
       ]
     });
 
-    backend = TestBed.get(MockBackend); 
-    service = TestBed.get(QuestionService); 
+    backend = TestBed.get(MockBackend);
+    service = TestBed.get(QuestionService);
   });
 
   it('should return a list of questions', fakeAsync(() => {
@@ -55,7 +55,7 @@ describe('QuestionService', () => {
 
     service.get().subscribe(questions => {
       expect(questions[0].id).toEqual(1);
-      expect(questions[0].text).toEqual("Test");
+      expect(questions[0].text).toEqual('Test');
     });
   }));
 
@@ -71,6 +71,6 @@ describe('QuestionService', () => {
     const questions = service.getQuestions();
 
     expect(questions[0].id).toEqual(1);
-    expect(questions[0].text).toEqual("Test");
+    expect(questions[0].text).toEqual('Test');
   }));
 });

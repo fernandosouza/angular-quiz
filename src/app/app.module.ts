@@ -6,14 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionCreatorComponent } from './question-creator/question-creator.component';
-import { QuestionService } from './question.service';
-import { OptionService } from './option.service';
+import { QuestionService } from './question/question.service';
+import { OptionService } from './option/option.service';
+import { OptionListComponent } from './option/option-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
-    QuestionCreatorComponent
+    QuestionCreatorComponent,
+    OptionListComponent
   ],
   imports: [
     BrowserModule,

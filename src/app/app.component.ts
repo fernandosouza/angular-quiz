@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { QuestionService, Question } from './question.service';
-import { OptionService } from './option.service';
+import { QuestionService } from './question/question.service';
+import { OptionService } from './option/option.service';
+import { Question } from 'app/models';
 
 @Component({
   selector: 'app-root',

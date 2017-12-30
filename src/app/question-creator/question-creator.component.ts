@@ -1,10 +1,13 @@
 import { Component, Input, ViewChild, Optional, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
-import { QuestionService, Question } from '../question.service';
-import { OptionService } from '../option.service';
+import { QuestionService } from '../question/question.service';
+import { OptionService } from '../option/option.service';
 
 import { ElementBase } from '../app.element-base';
 import { Response } from '@angular/http';
+import { NgForm } from '@angular/forms';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Question } from 'app/models';
 
 @Component({
   providers: [{
@@ -43,7 +46,7 @@ export class NestedComponent extends ElementBase<string> {
   styleUrls: ['./question-creator.component.css'],
   template: `
   <article class="question">
-    <form #f="ngForm" (submit)="saveQuestion()">
+    <form #f="ngForm" (submit)="saveQuestion($event)">
       <h5>
         <input
           required
@@ -103,6 +106,9 @@ export class QuestionCreatorComponent {
   };
   private options = [];
   private correct: string;
+  private pendingRequest: boolean;
+
+  @ViewChild('f') form: NgForm;
 
   constructor(
     private questionService: QuestionService,
@@ -117,16 +123,19 @@ export class QuestionCreatorComponent {
     this.options.splice(i, 1);
   }
 
-  saveQuestion(): void {
-    if (!this.question.text) { return };
+  saveQuestion($event): void {
+    $event.preventDefault();
+    if (!this.question.text || this.pendingRequest) { return };
+    this.pendingRequest = true;
     this.questionService.save(this.question)
-      .subscribe((response: Response) => {
-        const question = response.json();
-        if (response.ok) {
-          this.saveOptions(this.options, question, this.correct)
-          this.resetQuestion()
-        }
-      })
+    .subscribe((response: Response) => {
+      this.pendingRequest = false
+      const question = response.json()
+      if (response.ok) {
+        this.saveOptions(this.options, question, this.correct)
+        this.resetQuestion()
+      }
+    })
   }
 
   resetQuestion() {

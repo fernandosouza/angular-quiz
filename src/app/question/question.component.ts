@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Question } from 'app/models';
+import { QuestionService } from './question.service';
 
 @Component({
   selector: 'app-question',
@@ -8,24 +10,28 @@ import { Component, OnInit, Input } from '@angular/core';
     <div class="card-body">
       <h5 class="card-title">{{ question ? question.text : '' }}</h5>
       <div class="options-list" *ngIf="question && question.answers">
-        <ul>
-          <li *ngFor="let option of question.answers">
-            <label *ngIf="option">
-              <input type="radio" name="option_{{question.id}}" value="{{option.id}}" />
-              {{option.text}}
-            </label>
-          </li>
-        </ul>
+        <app-option-list
+          [options]="question.answers"
+          [editMode]="true"
+        ></app-option-list>
       </div>
       <p class="no-option-feedback alert alert-light" *ngIf="!hasOptions()">There is no option</p>
+      <button
+        type="button"
+        (click)="delete(question)"
+      >Delete</button>
     </div>
   </article>
   `
 })
 export class QuestionComponent {
-  @Input() question;
+  @Input() question: Question;
 
-  constructor() { }
+  constructor(private questionService: QuestionService) { }
+
+  delete(question: Question) {
+    this.questionService.delete(question)
+  }
 
   hasOptions() {
     return (
@@ -34,5 +40,4 @@ export class QuestionComponent {
       this.question.answers.length > 0
     );
   }
-
 }
