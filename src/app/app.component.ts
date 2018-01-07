@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { QuestionService } from './question/question.service';
-import { OptionService } from './option/option.service';
 import { Question } from 'app/models';
+import { QuestionService } from './question/question.service';
 
 @Component({
   selector: 'app-root',
@@ -23,21 +21,8 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   private questions: Question[];
-  private options = [
-    {
-      text: 'This is the text',
-      value: '1'
-    }, {
-      text: 'This is the text',
-      value: '2'
-    }, {
-      text: 'This is the text',
-      value: '3'
-    }
-  ];
 
   constructor(
-    private http: Http,
     private questionService: QuestionService) {
   }
 
@@ -50,21 +35,5 @@ export class AppComponent implements OnInit {
 
   loadQuestions(): void {
     this.questionService.get()
-  }
-
-  // This method should load options for the question
-  getOptionsToQuestion(ids: number[]) {
-    this.http.get('http://localhost:8080/question/' + ids)
-      .subscribe((response: Response) => {
-        const data = response.json();
-        if (this.questions) {
-          this.questions = this.questions.map(question => {
-            if (question.id === data.id) {
-              question = data;
-            }
-            return question;
-          })
-        }
-      });
   }
 }
