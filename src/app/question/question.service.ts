@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, Response, RequestOptionsArgs, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/map';
 
 import { Question } from 'app/models';
 
@@ -36,11 +37,19 @@ export class QuestionService {
    * @param  {Question} question
    * @returns Observable
    */
-  save(question: Question): Observable<Response> {
+  save(question: Question): Observable<Question> {
     if (!question) { return }
-    const request = this.http.post(POST_URL, { text: question.text }).share();
-    request.subscribe((response: Response) => {
-      this.updateQuestions([response.json()])
+    const request = this.http.post(
+      POST_URL,
+      {
+        text: question.text
+      }
+    )
+    .map((response: Response) => response.json())
+    .share();
+
+    request.subscribe((question: Question) => {
+      this.updateQuestions([question])
     })
     return request;
   }
@@ -63,13 +72,16 @@ export class QuestionService {
 
   /**
    * Request a list of Questions from the server. Stores the result in the
-   * update the private `questions` variable.
+   * private `questions` variable.
    * @returns Observable
    */
   get(): Observable<Response> {
-    const request = this.http.get(GET_URL).share();
-    request.subscribe((response: Response) => {
-      this.updateQuestions(response.json())
+    const request = this.http.get(GET_URL)
+      .map((response: Response) => response.json())
+      .share();
+
+    request.subscribe((questions: Question[]) => {
+      this.updateQuestions(questions)
     })
     return request;
   }
