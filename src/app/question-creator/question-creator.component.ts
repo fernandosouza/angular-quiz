@@ -96,14 +96,13 @@ export class QuestionCreatorComponent {
     if (!this.question.text || this.pendingRequest) { return };
     this.pendingRequest = true;
     this.questionService.save(this.question)
-    .subscribe((response: Response) => {
-      this.pendingRequest = false
-      const question = response.json()
-      if (response.ok) {
-        this.saveOptions(this.options, question, this.correct)
-        this.resetQuestion()
-      }
-    })
+      .subscribe((question: Question) => {
+        this.pendingRequest = false
+        if (question) {
+          this.saveOptions(this.options, question, this.correct)
+          this.resetQuestion()
+        }
+      })
   }
 
   resetQuestion() {
@@ -113,8 +112,8 @@ export class QuestionCreatorComponent {
 
   saveOptions(options: Array<object>, question: Question, correct: string) {
     this.optionService.save(this.options, question.id, correct)
-      .subscribe(data => {
-        console.log(data)
+      .subscribe(answers => {
+        question.answers = answers;
       });
   }
 
