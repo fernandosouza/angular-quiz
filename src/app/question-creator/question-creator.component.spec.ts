@@ -3,8 +3,8 @@ import { Http, BaseRequestOptions, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { QuestionCreatorComponent } from './question-creator.component';
-import { QuestionService } from '../question.service';
-import { OptionService } from '../option.service';
+import { QuestionService } from '../question/question.service';
+import { OptionService } from '../option/option.service';
 
 describe('QuestionCreatorComponent', () => {
   let component: QuestionCreatorComponent;
