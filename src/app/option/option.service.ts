@@ -20,7 +20,7 @@ export class OptionService {
         questionId: questionId,
         correct: correct
       }
-    ).share()
+    ).map((response: Response) => response.json()).share()
   }
 
   remove(option): Observable<any> {
