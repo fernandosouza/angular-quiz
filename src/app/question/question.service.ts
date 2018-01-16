@@ -75,7 +75,7 @@ export class QuestionService {
    * private `questions` variable.
    * @returns Observable
    */
-  get(): Observable<Response> {
+  get(): Observable<Question[]> {
     const request = this.http.get(GET_URL)
       .map((response: Response) => response.json())
       .share();
