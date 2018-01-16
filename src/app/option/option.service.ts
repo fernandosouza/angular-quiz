@@ -12,7 +12,7 @@ export class OptionService {
 
   constructor(private http: Http) { }
 
-  save(options: Array<{ text: string }>, questionId?: string, correct?: string): Observable<any> {
+  save(options: Array<{ text: string }>, questionId?: string, correct?: number): Observable<any> {
     return this.http.post(
       ADD_OPTION_URL,
       {

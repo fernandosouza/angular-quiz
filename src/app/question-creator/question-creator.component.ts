@@ -1,120 +1,67 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { QuestionService } from '../question/question.service';
-import { OptionService } from '../option/option.service';
 
-import { ElementBase } from '../app.element-base';
+import { ElementBase } from 'app/app.element-base';
 import { Response } from '@angular/http';
 import { NgForm } from '@angular/forms';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Question } from 'app/models';
+import { Question, Option } from 'app/models';
+import { QuestionCreatorService } from './question-creator.service';
 
 @Component({
   selector: 'app-question-creator',
   styleUrls: ['./question-creator.component.css'],
-  template: `
-  <article class="question">
-    <form #f="ngForm" (submit)="saveQuestion($event)">
-      <h5>
-        <input
-          required
-          class="form-control"
-          type="text"
-          placeholder="Insert the question"
-          name="question_text"
-          [(ngModel)]="question.text"
-        >
-      </h5>
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let option of options; let i = index">
-          <label class="sr-only" for="">Option</label>
-          <input
-            [(ngModel)]="option.text"
-            name="option-{{i}}"
-            class="form-control"
-            placeholder="Type the option"
-            type="text"
-          >
-          <input
-            type="radio"
-            name="correct"
-            [value]="i"
-            [(ngModel)]="correct"
-          >
-          <button
-            (click)="dropOption(i)"
-            type="button"
-          >
-            Remove
-          </button>
-        </li>
-      </ul>
-      <button
-        class="btn btn-sm btn-block btn-primary"
-        (click)="addOption()"
-        type="button"
-      >
-        Add new option
-      </button>
-      <button
-        class="btn btn-primary"
-        [disabled]="f.invalid"
-        >
-        Save
-      </button>
-    </form>
-    <br>
-    <br>
-    <br>
-  </article>`
+  templateUrl: './question-creator.component.html' 
 })
 export class QuestionCreatorComponent {
   private question: Question = {
-    text: ''
+    text: '',
+    answers: [
+      {
+        text: '',
+        correct: false
+      } as Option
+    ]
   };
-  private options = [];
   private correct: string;
   private pendingRequest: boolean;
 
   @ViewChild('f') form: NgForm;
 
   constructor(
-    private questionService: QuestionService,
-    private optionService: OptionService
+    private questionCreatorService: QuestionCreatorService
   ) { }
 
   addOption(): void {
-    this.options = [...this.options, {}]
+    this.question.answers = [...this.question.answers, { text: '' }]
   }
 
   dropOption(i) {
-    this.options.splice(i, 1);
+    this.question.answers.splice(i, 1);
   }
 
   saveQuestion($event): void {
     $event.preventDefault();
     if (!this.question.text || this.pendingRequest) { return };
     this.pendingRequest = true;
-    this.questionService.save(this.question)
-      .subscribe((question: Question) => {
-        this.pendingRequest = false
-        if (question) {
-          this.saveOptions(this.options, question, this.correct)
-          this.resetQuestion()
-        }
-      })
+    this.questionCreatorService.saveQuestion({...this.question})
+      .subscribe(data => {
+        this.pendingRequest = false;
+        this.resetQuestion()
+      }
+    );
   }
 
   resetQuestion() {
-    this.question.text = '';
-    this.options = [];
-  }
-
-  saveOptions(options: Array<object>, question: Question, correct: string) {
-    this.optionService.save(this.options, question.id, correct)
-      .subscribe(answers => {
-        question.answers = answers;
-      });
+    this.question = {
+      text: '',
+      answers: [
+        {
+          text: '',
+          correct: false
+        } as Option
+      ]
+    }
   }
 
 }

@@ -1,0 +1,56 @@
+<article class="question">
+  <form #f="ngForm" (submit)="saveQuestion($event)">
+    <h5>
+      <input
+        required
+        class="form-control"
+        type="text"
+        placeholder="Insert the question"
+        name="question_text"
+        [(ngModel)]="question.text"
+      >
+    </h5>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let answer of question.answers; let i = index">
+        <label class="sr-only" for="">Option</label>
+        <input
+          [(ngModel)]="answer.text"
+          name="answer-{{i}}"
+          class="form-control"
+          placeholder="Type the answer"
+          type="text"
+          required
+        >
+        <input
+          type="radio"
+          name="correct"
+          required
+          [value]="i"
+          [(ngModel)]="correct"
+        >
+        <button
+          (click)="dropOption(i)"
+          type="button"
+        >
+          Remove
+        </button>
+      </li>
+    </ul>
+    <button
+      class="btn btn-sm btn-block btn-primary"
+      (click)="addOption()"
+      type="button"
+    >
+      Add new option
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="f.invalid"
+      >
+      Save
+    </button>
+  </form>
+  <br>
+  <br>
+  <br>
+</article>

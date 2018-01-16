@@ -9,6 +9,7 @@ import { QuestionCreatorComponent } from './question-creator/question-creator.co
 import { QuestionService } from './question/question.service';
 import { OptionService } from './option/option.service';
 import { OptionListComponent } from './option/option-list.component';
+import { QuestionCreatorService } from 'app/question-creator/question-creator.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { OptionListComponent } from './option/option-list.component';
   ],
   providers: [
     QuestionService,
-    OptionService
+    OptionService,
+    QuestionCreatorService
   ],
   bootstrap: [AppComponent]
 })
