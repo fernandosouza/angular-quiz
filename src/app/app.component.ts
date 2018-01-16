@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from 'app/models';
 import { QuestionService } from './question/question.service';
+import { QuestionCreatorService } from 'app/question-creator/question-creator.service';
 
 @Component({
   selector: 'app-root',
@@ -23,17 +24,21 @@ export class AppComponent implements OnInit {
   private questions: Question[];
 
   constructor(
-    private questionService: QuestionService) {
+    private questionCreatorService: QuestionCreatorService,
+    private questionService: QuestionService
+  ) {
   }
 
   ngOnInit() {
     this.loadQuestions();
-    this.questionService.questionsLoaded.subscribe(
-      questions => this.questions = questions
+    this.questionCreatorService.questionAdded.subscribe(
+      question => this.questions = [question, ...this.questions]
     );
   }
 
   loadQuestions(): void {
-    this.questionService.get()
+    this.questionService.get().subscribe(
+      questions => this.questions = questions
+    )
   }
 }
