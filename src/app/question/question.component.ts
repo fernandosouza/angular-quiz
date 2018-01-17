@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Question } from '../models';
 import { QuestionService } from './question.service';
 
@@ -17,20 +17,35 @@ import { QuestionService } from './question.service';
       </div>
       <p class="no-option-feedback alert alert-light" *ngIf="!hasOptions()">There is no option</p>
       <button
+        class="btn"
         type="button"
         (click)="delete(question)"
-      >Delete</button>
+      >
+        Delete
+      </button>
+      <button
+        class="btn"
+        type="button"
+        (click)="onClick(question)"
+      >
+        Edit
+      </button>
     </div>
   </article>
   `
 })
 export class QuestionComponent {
   @Input() question: Question;
+  @Output() onClickEvent = new EventEmitter<any>();
 
   constructor(private questionService: QuestionService) { }
 
   delete(question: Question) {
     this.questionService.delete(question)
+  }
+
+  onClick(question: Question) {
+    this.onClickEvent.emit(question)
   }
 
   hasOptions() {

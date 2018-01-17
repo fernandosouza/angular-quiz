@@ -10,10 +10,12 @@ import { QuestionCreatorService } from 'app/question-creator/question-creator.se
   <main class="container">
     <header>
       <h1>Howzit Quiz</h1>
-      <app-question-creator></app-question-creator>
+      <app-question-creator [question]="questionToEdit"></app-question-creator>
       <app-question
         *ngFor="let question of questions"
-        [question]="question">
+        [question]="question"
+        (onClickEvent)="onClickQuestion($event)"
+      >
       </app-question>
     </header>
   </main>`
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   private questions: Question[];
+  private questionToEdit: Question;
 
   constructor(
     private questionCreatorService: QuestionCreatorService,
@@ -34,6 +37,10 @@ export class AppComponent implements OnInit {
     this.questionCreatorService.questionAdded.subscribe(
       question => this.questions = [question, ...this.questions]
     );
+  }
+
+  onClickQuestion(question: Question) {
+    this.questionToEdit = question;
   }
 
   loadQuestions(): void {

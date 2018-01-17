@@ -4,7 +4,7 @@ import { NgModel } from '@angular/forms';
 import { ElementBase } from 'app/app.element-base';
 import { Response } from '@angular/http';
 import { NgForm } from '@angular/forms';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AfterViewInit, SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Question, Option } from 'app/models';
 import { QuestionCreatorService } from './question-creator.service';
 
@@ -14,15 +14,7 @@ import { QuestionCreatorService } from './question-creator.service';
   templateUrl: './question-creator.component.html' 
 })
 export class QuestionCreatorComponent {
-  private question: Question = {
-    text: '',
-    answers: [
-      {
-        text: '',
-        correct: false
-      } as Option
-    ]
-  };
+  @Input('question') question: Question;
   private correct: string;
   private pendingRequest: boolean;
 
@@ -31,6 +23,20 @@ export class QuestionCreatorComponent {
   constructor(
     private questionCreatorService: QuestionCreatorService
   ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.question.currentValue) {
+      this.question = {
+        text: '',
+          answers: [
+            {
+              text: '',
+              correct: false
+            } as Option
+          ]
+      }
+    }
+  }
 
   addOption(): void {
     this.question.answers = [...this.question.answers, { text: '' }]
