@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bb7d83042d1949f6a67aaea228280a44)](https://www.codacy.com/app/fernandosouza/angular-quiz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fernandosouza/angular-quiz&amp;utm_campaign=Badge_Grade)
+
 # Quiz
 
 This project depends on [this another one](https://github.com/fernandosouza/quiz-server)
